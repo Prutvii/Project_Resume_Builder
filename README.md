@@ -33,9 +33,6 @@
 # Explore Resume Craftify:
 ### Visit [Resume Craftify](https://iamvny.github.io/Resume-Builder/) to explore the platform and begin crafting your impactful resume. Experience the blend of creativity, functionality, and efficiency in showcasing your professional journey. 🌐📄
 
-# Screenshots
-![Screenshot 2024-02-14 163014](https://github.com/iamvny/Resume-Builder/assets/146625204/589fac6e-18d8-4183-872f-04268cbb8521)
-
 
 
 
