@@ -1,5 +1,5 @@
 function redirectToBuildResume() {
-    window.location.href = "build.html";
+    window.location.href = "demo.html";
   }
   
   
