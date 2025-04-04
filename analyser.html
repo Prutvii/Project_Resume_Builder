@@ -9,18 +9,17 @@
 </head>
 <body>
 
-        <!-- Navigation Bar -->
-        <nav>
-            <div class="navbar-left">
-                <span class="logo">Resume Builder</span>
-            </div>
-            <div class="navbar-right">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="analyser.html" class="nav-link">Analyzer</a>
-                <a href="aboutUs.html" class="nav-link">About us</a>
-            </div>
-        </nav>
-    
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="navbar-left">
+            <span class="logo">Resume Builder</span>
+        </div>
+        <div class="navbar-right">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="analyser.html" class="nav-link">Analyzer</a>
+            <a href="aboutUs.html" class="nav-link">About us</a>
+        </div>
+    </nav>
 
     <div class="container">
         <h1>Resume Analyzer</h1>
@@ -54,35 +53,56 @@
                 return;
             }
 
-            setTimeout(() => {
-                let score = Math.floor(Math.random() * 11);  // Simulated score from 0-10
+            const file = fileInput.files[0];
 
-                let starsHTML = "";
-                for (let i = 0; i < 10; i++) {
-                    starsHTML += i < score ? `<i class="fas fa-star filled"></i>` : `<i class="far fa-star"></i>`;
-                }
+            // Generate a consistent score using a hash function
+            let score = generateScore(file.name);
 
-                let review = "";
-                let suggestion = "";
+            let starsHTML = "";
+            for (let i = 0; i < 10; i++) {
+                starsHTML += i < score ? `<i class="fas fa-star filled"></i>` : `<i class="far fa-star"></i>`;
+            }
 
-                if (score <= 3) {
-                    review = "❌ Poor Resume - Needs Major Improvements";
-                    suggestion = "Consider improving grammar, formatting, and structure. Make sure to include relevant skills and achievements.";
-                } else if (score <= 6) {
-                    review = "⚠️ Average Resume - Needs Some Work";
-                    suggestion = "Your resume has potential but requires better clarity and professional formatting. Avoid unnecessary details.";
-                } else if (score <= 8) {
-                    review = "✅ Good Resume - Minor Refinements Needed";
-                    suggestion = "Your resume is well-structured, but consider refining the language and ensuring consistency in formatting.";
+            let review = "";
+            let suggestion = "";
+
+            if (score <= 3) {
+                review = "❌ Poor Resume - Needs Major Improvements";
+                suggestion = "Consider improving grammar, formatting, and structure. Make sure to include relevant skills and achievements.";
+            } else if (score <= 6) {
+                review = "⚠️ Average Resume - Needs Some Work";
+                suggestion = "Your resume has potential but requires better clarity and professional formatting. Avoid unnecessary details.";
+            } else if (score <= 8) {
+                review = "✅ Good Resume - Minor Refinements Needed";
+                suggestion = "Your resume is well-structured, but consider refining the language and ensuring consistency in formatting.";
+            } else {
+                review = "🌟 Excellent Resume - Well Done!";
+                suggestion = "Your resume is outstanding! Just double-check for minor typos and keep it updated with new achievements.";
+            }
+
+            feedback.innerHTML = `<span class="success">${review} (Rating: ${score}/10)</span>`;
+            starRating.innerHTML = starsHTML;
+            improvement.innerHTML = `<span class="suggestion">${suggestion}</span>`;
+        }
+
+        function generateScore(filename) {
+            let hash = 0;
+            for (let i = 0; i < filename.length; i++) {
+                hash = filename.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            let score = Math.abs(hash % 10) + 1; // Convert hash to range 1-10
+
+            // Make high ratings (8-10) rare
+            if (score >= 8) {
+                let chance = Math.random();
+                if (chance > 0.85) { // Only 15% chance of getting 8-10
+                    return score;
                 } else {
-                    review = "🌟 Excellent Resume - Well Done!";
-                    suggestion = "Your resume is outstanding! Just double-check for minor typos and keep it updated with new achievements.";
+                    return score - 2; // Reduce high scores to make them rare
                 }
+            }
 
-                feedback.innerHTML = `<span class="success">${review} (Rating: ${score}/10)</span>`;
-                starRating.innerHTML = starsHTML;
-                improvement.innerHTML = `<span class="suggestion">${suggestion}</span>`;
-            }, 2000);
+            return score;
         }
     </script>
 </body>
