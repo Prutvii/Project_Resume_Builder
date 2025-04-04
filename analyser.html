@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Analyzer</title>
+    <link rel="stylesheet" href="analyzer.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+        <!-- Navigation Bar -->
+        <nav>
+            <div class="navbar-left">
+                <span class="logo">Resume Builder</span>
+            </div>
+            <div class="navbar-right">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="analyser.html" class="nav-link">Analyzer</a>
+                <a href="aboutUs.html" class="nav-link">About us</a>
+            </div>
+        </nav>
+    
+
+    <div class="container">
+        <h1>Resume Analyzer</h1>
+        <p>Upload your resume to evaluate its accuracy and professionalism</p>
+        
+        <div class="upload-box">
+            <input type="file" id="resumeUpload" accept=".pdf,.doc,.docx">
+        </div>
+
+        <button onclick="analyzeResume()">Analyze Resume</button>
+
+        <div class="result">
+            <h3>Analysis Result</h3>
+            <p id="feedback"></p>
+            <div class="stars" id="starRating"></div>
+            <p id="improvement"></p> <!-- Improvement suggestions -->
+        </div>
+    </div>
+
+    <script>
+        function analyzeResume() {
+            const fileInput = document.getElementById("resumeUpload");
+            const feedback = document.getElementById("feedback");
+            const starRating = document.getElementById("starRating");
+            const improvement = document.getElementById("improvement");
+
+            if (!fileInput.files.length) {
+                feedback.innerHTML = "<span class='error'>Please upload a resume file.</span>";
+                starRating.innerHTML = ""; 
+                improvement.innerHTML = ""; 
+                return;
+            }
+
+            setTimeout(() => {
+                let score = Math.floor(Math.random() * 11);  // Simulated score from 0-10
+
+                let starsHTML = "";
+                for (let i = 0; i < 10; i++) {
+                    starsHTML += i < score ? `<i class="fas fa-star filled"></i>` : `<i class="far fa-star"></i>`;
+                }
+
+                let review = "";
+                let suggestion = "";
+
+                if (score <= 3) {
+                    review = "❌ Poor Resume - Needs Major Improvements";
+                    suggestion = "Consider improving grammar, formatting, and structure. Make sure to include relevant skills and achievements.";
+                } else if (score <= 6) {
+                    review = "⚠️ Average Resume - Needs Some Work";
+                    suggestion = "Your resume has potential but requires better clarity and professional formatting. Avoid unnecessary details.";
+                } else if (score <= 8) {
+                    review = "✅ Good Resume - Minor Refinements Needed";
+                    suggestion = "Your resume is well-structured, but consider refining the language and ensuring consistency in formatting.";
+                } else {
+                    review = "🌟 Excellent Resume - Well Done!";
+                    suggestion = "Your resume is outstanding! Just double-check for minor typos and keep it updated with new achievements.";
+                }
+
+                feedback.innerHTML = `<span class="success">${review} (Rating: ${score}/10)</span>`;
+                starRating.innerHTML = starsHTML;
+                improvement.innerHTML = `<span class="suggestion">${suggestion}</span>`;
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
